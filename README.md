@@ -1,1 +1,1 @@
-# chrun-prediction-pipeline
+# churn-prediction-pipeline
