@@ -1,7 +1,7 @@
 # 🧩 Feature Engineering Specification  
 **Project:** Customer Churn Prediction  
-**Author:** [Your Name]  
-**Last Updated:** [Insert Date]  
+**Author:** Gonçalo Marques 
+**Last Updated:** 07/11/2025  
 **Purpose:** Define engineered features and transformation logic for modeling customer churn.
 
 ---
