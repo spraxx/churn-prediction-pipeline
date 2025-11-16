@@ -1,10 +1,24 @@
-# src/features/build_features.py
 import pandas as pd
 
 
-def add_churn_features(df: pd.DataFrame) -> pd.DataFrame:
+def add_churn_features(df: pd.DataFrame, one_hot: bool = False) -> pd.DataFrame:
     """
     Add additional, more informative features for churn prediction.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataframe with the original Telco churn columns.
+    one_hot : bool, optional (default=False)
+        If True, apply one-hot encoding to all categorical columns (object/category
+        dtype), excluding an ID column such as ``customerID`` if present.
+        If False, leave categorical columns as-is.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Dataframe with engineered features (and optionally one-hot encoded
+        categorical variables).
     """
     df = df.copy()
 
@@ -46,5 +60,15 @@ def add_churn_features(df: pd.DataFrame) -> pd.DataFrame:
 
     if "PaperlessBilling" in df.columns:
         df["is_paperless"] = (df["PaperlessBilling"] == "Yes").astype(int)
+
+    # 5) Optional one-hot encoding for categorical features
+    if one_hot:
+        cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
+        # don't one-hot an ID column if present
+        if "customerID" in cat_cols:
+            cat_cols.remove("customerID")
+
+        if cat_cols:
+            df = pd.get_dummies(df, columns=cat_cols, drop_first=True)
 
     return df
